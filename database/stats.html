@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Stats</title>
+</head>
+<body>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Timestamp</th>
+        <th>Binance Best Bid</th>
+        <th>Binance Best Ask</th>
+        <th>OKX Best Bid</th>
+        <th>OKX Best Ask</th>
+        <th>Bid Diff</th>
+        <th>Ask Diff</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        <td>{{ row.id }}</td>
+        <td>{{ row.timestamp }}</td>
+        <td>{{ row.binance_best_bid }}</td>
+        <td>{{ row.binance_best_ask }}</td>
+        <td>{{ row.okx_best_bid }}</td>
+        <td>{{ row.okx_best_ask }}</td>
+        <td>{{ row.bid_diff }}</td>
+        <td>{{ row.ask_diff }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

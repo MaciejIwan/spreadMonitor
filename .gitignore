@@ -1,5 +1,7 @@
-filename.csv
-my_log_file.txt
+file/filename.csv
+file/my_log_file.txt
 ./database/my_log_file.txt
 /database/my_database.db
 .idea
+/database/my_db_file.db
+/database/my_log_file.txt

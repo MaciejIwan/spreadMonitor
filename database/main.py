@@ -57,7 +57,7 @@ def main():
         ask_diff = abs(float(binance_best_ask) - float(okx_best_bid))
 
         # Compare bid_diff and ask_diff with the last row if it exists
-        if last_row is not None and last_row[6] == bid_diff and last_row[7] == ask_diff:
+        if last_row is not None and last_row[6] == bid_diff / float(binance_best_bid) and last_row[7] == ask_diff / float(okx_best_bid):
             print('Skipping duplicate row...')
             continue
 
