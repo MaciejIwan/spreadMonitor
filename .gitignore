@@ -1,4 +1,5 @@
 filename.csv
 my_log_file.txt
-./database/my_database.db
 ./database/my_log_file.txt
+/database/my_database.db
+.idea
