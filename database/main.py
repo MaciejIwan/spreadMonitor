@@ -1,3 +1,4 @@
+
 import requests
 import json
 import time
@@ -34,12 +35,15 @@ def get_both_data():
     okx_data = get_data(params, url_okx)
     return binance_data, okx_data
 
-
 def main():
     conn = sqlite3.connect('my_database.db')
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS data
-                 (ts DATETIME, binance_best_bid real, binance_best_ask real, okx_best_bid real, okx_best_ask real, bid_diff real, ask_diff real)''')
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT, ts DATETIME, binance_best_bid real, binance_best_ask real, okx_best_bid real, okx_best_ask real, bid_diff real, ask_diff real)''')
+
+    # Get the last row if it exists
+    c.execute("SELECT * FROM data ORDER BY id DESC LIMIT 1")
+    last_row = c.fetchone()
 
     while True:
         binance_data, okx_data = get_both_data()
@@ -52,19 +56,25 @@ def main():
         bid_diff = abs(float(binance_best_bid) - float(okx_best_ask))
         ask_diff = abs(float(binance_best_ask) - float(okx_best_bid))
 
+        # Compare bid_diff and ask_diff with the last row if it exists
+        if last_row is not None and last_row[6] == bid_diff and last_row[7] == ask_diff:
+            print('Skipping duplicate row...')
+            continue
+
         ts = okx_data['data'][0]['ts']
         dt = datetime.datetime.fromtimestamp(int(ts[:-3]))
 
         row = (dt, binance_best_bid, binance_best_ask, okx_best_bid, okx_best_ask, bid_diff / float(binance_best_bid),
                ask_diff / float(okx_best_bid))
 
-        c.execute("INSERT INTO data VALUES (?, ?, ?, ?, ?, ?, ?)", row)
+        c.execute("INSERT INTO data(ts, binance_best_bid, binance_best_ask, okx_best_bid, okx_best_ask, bid_diff, ask_diff) VALUES (?, ?, ?, ?, ?, ?, ?)", row)
         conn.commit()
+
+        last_row = c.execute("SELECT * FROM data ORDER BY id DESC LIMIT 1").fetchone()
 
         time.sleep(60)
 
     conn.close()
-
 
 if __name__ == '__main__':
     main()
