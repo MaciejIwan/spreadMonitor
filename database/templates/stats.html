@@ -27,8 +27,8 @@
         <td>{{ row.binance_best_ask }}</td>
         <td>{{ row.okx_best_bid }}</td>
         <td>{{ row.okx_best_ask }}</td>
-        <td>{{ row.bid_diff }}</td>
-        <td>{{ row.ask_diff }}</td>
+        <td>{{ "%.4f "|format(row.bid_diff*100) }}</td>
+        <td>{{ "%.4f "|format(row.ask_diff*100) }}</td>
       </tr>
       {% endfor %}
     </tbody>
