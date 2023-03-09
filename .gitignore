@@ -5,3 +5,6 @@ file/my_log_file.txt
 .idea
 /database/my_db_file.db
 /database/my_log_file.txt
+/database/nohup.out
+/database/logs/my_log_file.txt
+/database/resources/my_database.db
