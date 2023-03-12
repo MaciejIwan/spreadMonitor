@@ -15,9 +15,9 @@ async def stats(request: Request):
     cursor.execute("SELECT * FROM data ORDER BY id")
     rows = cursor.fetchall()
 
-    for row in rows:
-        print(row['id'], row['ts'], row['binance_best_bid'], row['binance_best_ask'], row['okx_best_bid'],
-              row['okx_best_ask'], row['bid_diff'], row['ask_diff'])
+    #for row in rows:
+    #    print(row['id'], row['ts'], row['binance_best_bid'], row['binance_best_ask'], row['okx_best_bid'],
+    #          row['okx_best_ask'], row['bid_diff'], row['ask_diff'])
     return templates.TemplateResponse("stats.html", {"request": request, "rows": rows})
 
 

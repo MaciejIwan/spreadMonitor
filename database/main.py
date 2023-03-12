@@ -60,7 +60,7 @@ def main():
             # Compare bid_diff and ask_diff with the last row if it exists
             if last_row is not None and last_row[6] == bid_diff / float(binance_best_bid) and last_row[
                 7] == ask_diff / float(okx_best_bid):
-                print('Skipping duplicate row...')
+                time.sleep(100)
                 continue
 
             ts = okx_data['data'][0]['ts']
