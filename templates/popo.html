@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .binance {
+            background-color: rgba(255, 136, 0, 0.3);
+        }
+
+        .sameLvl {
+            background-color: rgba(128, 128, 128, 0.5);
+        }
+
+        .okx {
+            background-color: rgba(0, 128, 70, 0.36);
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: white;
+        }
+
+        td {
+            text-align: center;
+            padding-right: 2px;
+            padding-left: 2px;
+            min-width: 100px;
+        }
+
+        /* Legend */
+        .legend {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            background-color: white;
+            border: 1px solid black;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .legend__item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .legend__color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .binance-color {
+            background-color: rgba(255, 136, 0, 0.3);
+        }
+
+        .sameLvl-color {
+            background-color: rgba(128, 128, 128, 0.5);
+        }
+
+        .okx-color {
+            background-color: rgba(0, 128, 70, 0.36);
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>Stats</title>
+</head>
+<body>
+<div class="legend">
+    <div class="legend__item">
+        <div class="legend__color binance-color"></div>
+        Binance Best Bid < OKX Best Bid
+    </div>
+    <div class="legend__item">
+        <div class="legend__color sameLvl-color"></div>
+        Bids within 0.1% of each other
+    </div>
+    <div class="legend__item">
+        <div class="legend__color okx-color"></div>
+        OKX Best Bid > Binance Best Bid
+    </div>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Timestamp</th>
+        <th>Binance Best Bid</th>
+        <th>Binance Best Ask</th>
+        <th>OKX Best Bid</th>
+        <th>OKX Best Ask</th>
+        <th>Bid Diff</th>
+        <th>Ask Diff</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for row in rows %}
+    <tr class="{% if row.binance_best_bid < row.okx_best_bid - row.okx_best_bid * 0.001 or row.binance_best_bid > row.okx_best_bid + row.okx_best_bid * 0.001 %}
+              binance
+            {% elif row.okx_best_bid < row.binance_best_bid - row.binance_best_bid * 0.001 or row.okx_best_bid > row.binance_best_bid + row.binance_best_bid * 0.001 %}
+              okx
+            {% else %}
+              sameLvl
+
+            {% endif %}">
+        <td>{{ row.id }}</td>
+        <td>{{ row.ts }}</td>
+        <td>{{ row.binance_best_bid }}</td>
+        <td>{{ row.binance_best_ask }}</td>
+        <td>{{ row.okx_best_bid }}</td>
+        <td>{{ row.okx_best_ask }}</td>
+        <td>{{ "%.4f "|format(row.bid_diff*100) }}</td>
+        <td>{{ "%.4f "|format(row.ask_diff*100) }}</td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
