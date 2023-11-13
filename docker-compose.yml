@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  main-app:
+    build: .
+    environment:
+      DB_HOST: 172.17.0.1 # or host.docker.internal
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: db_name
+    restart: always
+    command: python ./main.py
+    volumes:
+      - .:/app
+
+  web-app:
+    build: .
+    environment:
+      DB_HOST: 172.17.0.1 # or host.docker.internal
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: db_name
+    restart: always
+    command: uvicorn webAccess:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+

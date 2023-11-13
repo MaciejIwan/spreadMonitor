@@ -12,3 +12,4 @@ file/my_log_file.txt
 /identifier.sqlite
 /resources/my_database.db-journal
 /logs/webAccess.txt
+docker-compose-prod.yml

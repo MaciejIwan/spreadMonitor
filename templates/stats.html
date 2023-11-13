@@ -34,6 +34,11 @@
     <title>Stats</title>
 </head>
 <body>
+<form action="/stats" method="get">
+    <label for="limit">Limit wierszy (0 - bez limitu):</label>
+    <input type="number" id="limit" name="limit" min="0" value="{{ request.query_params.get('limit', 1000) }}">
+    <input type="submit" value="Ustaw">
+</form>
 <table>
     <thead>
     <tr>

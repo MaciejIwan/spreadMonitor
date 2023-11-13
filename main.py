@@ -6,6 +6,7 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Spread, Base
+import os
 
 logging.basicConfig(filename='logs/my_log_file.txt', level=logging.WARNING)
 logging.debug('App started')
@@ -32,7 +33,9 @@ def get_both_data():
     return binance_data, okx_data
 
 def main():
-    engine = create_engine('sqlite:///resources/my_database.db')
+    S = f'mysql+mysqlconnector://{os.getenv("DB_USER", "root")}:{os.getenv("DB_PASSWORD", "root")}@{os.getenv("DB_HOST", "localhost")}:{os.getenv("DB_PORT", "3306")}/{os.getenv("DB_NAME", "schema_name")}'
+    print(f'Connecting to database: {S}')
+    engine = create_engine(S)
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
     session = Session()
